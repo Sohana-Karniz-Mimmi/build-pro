@@ -1,42 +1,151 @@
-'use client'
-import { useHeaderTheme } from '@/providers/HeaderTheme'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+"use client";
 
-import type { Header } from '@/payload-types'
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
+// import TopBar from "./TopBar";
+import Link from "next/link";
 
-import { Logo } from '@/components/Logo/Logo'
-import { HeaderNav } from './Nav'
-
-interface HeaderClientProps {
-  data: Header
-}
-
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
-  /* Storing the value in a useState to avoid hydration errors */
-  const [theme, setTheme] = useState<string | null>(null)
-  const { headerTheme, setHeaderTheme } = useHeaderTheme()
-  const pathname = usePathname()
+export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    setHeaderTheme(null)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
 
-  useEffect(() => {
-    if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [headerTheme])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
-        <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
-        </Link>
-        <HeaderNav data={data} />
-      </div>
+    <header className="absolute top-0 left-0 right-0 w-full z-50">
+      {/* <TopBar isScrolled={isScrolled} /> */}
+
+      {/* Main Navigation - Sticky on scroll */}
+      <nav
+        className={`text-white py-[16px] transition-all duration-300 ${
+          isScrolled ? "fixed top-0 left-0 right-0 bg-[#323232f2]" : ""
+        }`}
+      >
+        <div className="main_container mx-auto px-4">
+          <div className="flex justify-between items-center">
+            {/* Logo */}
+              <div>
+                <h2 className="text-[20px] font-bold tracking-[2px]">BUILD<span className="text-primary">PRO</span> </h2>
+                <h3 className="text-[11px] tracking-[3px]">CONSTRUCTION</h3>
+              </div>
+
+            {/* Desktop Menu */}
+            <div className="hidden lg:flex space-x-[32px]">
+              <Link
+                href="/home"
+                className="hover:text-primary transition-colors font-medium"
+              >
+                Home
+              </Link>
+              <Link
+                href="/projects"
+                className="hover:text-primary transition-colors font-medium"
+              >
+                Projects
+              </Link>
+              <Link
+                href="/services"
+                className="hover:text-primary transition-colors font-medium"
+              >
+                Services
+              </Link>
+              <Link
+                href="/about"
+                className="hover:text-primary transition-colors font-medium"
+              >
+                About Us
+              </Link>
+              <Link
+                href="/blog"
+                className="hover:text-primary transition-colors font-medium"
+              >
+                Blog
+              </Link>
+              <Link
+                href="/shop"
+                className="hover:text-primary transition-colors font-medium"
+              >
+                Shop
+              </Link>
+              <Link
+                href="/contact"
+                className="hover:text-primary transition-colors font-medium"
+              >
+                Contact
+              </Link>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="lg:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? (
+                <X className="h-[24px] w-[24px]" />
+              ) : (
+                <Menu className="h-[24px] w-[24px]" />
+              )}
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          {isMenuOpen && (
+            <div className="lg:hidden mt-[16px] py-[16px] border-t border-gray-700">
+              <div className="flex flex-col space-y-[16px]">
+                <Link
+                  href="#home"
+                  className="hover:text-primary transition-colors font-medium"
+                >
+                  Home
+                </Link>
+                <Link
+                  href="#projects"
+                  className="hover:text-primary transition-colors font-medium"
+                >
+                  Projects
+                </Link>
+                <Link
+                  href="#services"
+                  className="hover:text-primary transition-colors font-medium"
+                >
+                  Services
+                </Link>
+                <Link
+                  href="#about"
+                  className="hover:text-primary transition-colors font-medium"
+                >
+                  About Us
+                </Link>
+                <Link
+                  href="#blog"
+                  className="hover:text-primary transition-colors font-medium"
+                >
+                  Blog
+                </Link>
+                <Link
+                  href="#shop"
+                  className="hover:text-primary transition-colors font-medium"
+                >
+                  Shop
+                </Link>
+                <Link
+                  href="#contact"
+                  className="hover:text-primary transition-colors font-medium"
+                >
+                  Contact
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </nav>
     </header>
-  )
+  );
 }

@@ -73,6 +73,7 @@ export interface Config {
     categories: Category;
     users: User;
     hero: Hero;
+    services: Service;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -90,6 +91,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     hero: HeroSelect<false> | HeroSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -735,11 +737,23 @@ export interface Form {
  */
 export interface Hero {
   id: string;
-  tagline: string;
-  heading: string;
-  highlightedText: string;
-  buttonText: string;
-  backgroundImage?: (string | null) | Media;
+  sub_title: string;
+  title: string;
+  heading_lighted_text: string;
+  button_text: string;
+  background_image?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: string;
+  title: string;
+  description: string;
+  image: string | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -939,6 +953,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'hero';
         value: string | Hero;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: string | Service;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1302,11 +1320,22 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "hero_select".
  */
 export interface HeroSelect<T extends boolean = true> {
-  tagline?: T;
-  heading?: T;
-  highlightedText?: T;
-  buttonText?: T;
-  backgroundImage?: T;
+  sub_title?: T;
+  title?: T;
+  heading_lighted_text?: T;
+  button_text?: T;
+  background_image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  image?: T;
   updatedAt?: T;
   createdAt?: T;
 }

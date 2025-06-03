@@ -3,31 +3,31 @@ import { CollectionConfig } from 'payload'
 const Hero: CollectionConfig = {
   slug: 'hero',
   admin: {
-    useAsTitle: 'heading',
+    useAsTitle: 'title',
   },
   fields: [
     {
-      name: 'tagline',
+      name: 'sub_title',
       type: 'text',
       required: true,
     },
     {
-      name: 'heading',
+      name: 'title',
       type: 'text',
       required: true,
     },
     {
-      name: 'highlightedText',
+      name: 'heading_lighted_text',
       type: 'text',
       required: true,
     },
     {
-      name: 'buttonText',
+      name: 'button_text',
       type: 'text',
       required: true,
     },
     {
-      name: 'backgroundImage',
+      name: 'background_image',
       type: 'upload',
       relationTo: 'media',
       required: false,

@@ -1,10 +1,16 @@
+import About from '@/components/Home/About'
+import Hero from '@/components/Home/Hero'
+import Projects from '@/components/Home/Projects'
+import Services from '@/components/Home/Services'
 import React from 'react'
 
 export default function page() {
   return (
     <main>
-      {/* <h1 className="text-3xl font-bold">Welcome to My Site</h1>
-      <p>This is my styled home page!</p> */}
+      <Hero />
+      <Services />
+      <About />
+      <Projects />
     </main>
   )
 }
